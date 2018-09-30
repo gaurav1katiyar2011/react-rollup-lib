@@ -3,8 +3,10 @@ import commonjs from 'rollup-plugin-commonjs'
 import external from 'rollup-plugin-peer-deps-external'
 import postcss from 'rollup-plugin-postcss'
 import resolve from 'rollup-plugin-node-resolve'
-import url from 'rollup-plugin-url'
-
+//import url from 'rollup-plugin-url'
+import image from 'rollup-plugin-img';
+//import image from 'rollup-plugin-image';
+ 
 import pkg from './package.json'
 
 export default {
@@ -26,12 +28,20 @@ export default {
     postcss({
       modules: true
     }),
-    url(),
+     
+  //  url(),
+    image(
+      {output: 'dist/images/', // default the root
+    extensions: /\.(png|jpg|jpeg|gif|svg)$/, // support png|jpg|jpeg|gif|svg, and it's alse the default value
+    limit: 8192,  // default 8192(8k)
+    exclude: 'node_modules/**'
+  }),
     babel({
       exclude: 'node_modules/**',
       plugins: [ 'external-helpers' ]
     }),
     resolve(),
     commonjs()
+    
   ]
 }
